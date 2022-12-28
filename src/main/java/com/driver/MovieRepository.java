@@ -11,11 +11,11 @@ import java.util.Map;
 @Repository
 public class MovieRepository {
 
-    HashMap<String, Movie> movieDB;
+    HashMap<String, Movie> movieDB = new HashMap<>();
 
-    HashMap<String, Director> directorDB;
+    HashMap<String, Director> directorDB = new HashMap<>();
 
-    HashMap<Movie, Director> movieDirectorDB;
+    HashMap<Movie, Director> movieDirectorDB = new HashMap<>();
 
     void addMovieToDB(Movie movie){
 
@@ -31,10 +31,9 @@ public class MovieRepository {
 
     void addMovieDirectorPairToDB(String directorName, String movieName){
 
-        if(directorDB.containsKey(directorName) && movieDB.containsKey(movieName)) {
-            Movie movie = movieDB.get(movieName);
-            movieDirectorDB.put(movie, directorDB.get(directorName));
-        }
+        Movie movie = movieDB.get(movieName);
+        Director director = directorDB.get(directorName);
+        movieDirectorDB.put(movie, director);
     }
 
     Movie getMovieByNameFromDB(String movieName){
@@ -55,11 +54,11 @@ public class MovieRepository {
         }
     }
 
-    List<Movie> getAllMoviesByDirectorFromDB(String directorName){
-        ArrayList<Movie> movieList = new ArrayList<>();
-        for(Map.Entry<Movie, Director> entry: movieDirectorDB.entrySet()){
-            if(entry.getValue().getName().equals(directorName)){
-                movieList.add(entry.getKey());
+    List<String> getAllMoviesByDirectorFromDB(String directorName){
+        List<String> movieList = new ArrayList<>();
+        for(Movie movie:movieDirectorDB.keySet()){
+            if(movieDirectorDB.get(movie).getName().equals(directorName)){
+                movieList.add((movie).getName());
             }
         }
         return movieList;

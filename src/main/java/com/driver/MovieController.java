@@ -16,16 +16,16 @@ public class MovieController {
     MovieService movieService;
 
     @PostMapping("/movies/add-movie")
-    public ResponseEntity<String> addMovie(@RequestBody Movie movie){
+    public ResponseEntity<String> addMovie(@RequestBody() Movie movie){
 
         movieService.addMovieService(movie);
-        return new ResponseEntity<>("Movie added successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Movie added successfully", HttpStatus.CREATED);
     }
     @PostMapping("/movies/add-director")
-    public ResponseEntity<String> addDirector(@RequestBody Director director){
+    public ResponseEntity<String> addDirector(@RequestBody() Director director){
 
         movieService.addDirectorService(director);
-        return new ResponseEntity<>("Director added successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Director added successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/movies/add-movie-director-pair")
@@ -60,11 +60,11 @@ public class MovieController {
     }
 
     @GetMapping("/movies/get-movies-by-director-name/{director}")
-    public ResponseEntity<List<Movie>> getMoviesByDirectorName(@PathVariable("name") String directorName){
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("director") String directorName){
 
-        ArrayList<Movie> movieList = (ArrayList<Movie>) movieService.getAllMoviesByDirectorService(directorName);
+        List<String> movieList = movieService.getAllMoviesByDirectorService(directorName);
         if (movieList.isEmpty()){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(movieList, HttpStatus.FOUND);
@@ -74,7 +74,7 @@ public class MovieController {
     @GetMapping("/movies/get-all-movies")
     public ResponseEntity<List<Movie>> findAllMovies(){
 
-        ArrayList<Movie> movieList = (ArrayList<Movie>) movieService.getAllMoviesService();
+        List<Movie> movieList = movieService.getAllMoviesService();
         if (movieList.isEmpty()){
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
