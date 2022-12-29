@@ -21,6 +21,7 @@ public class MovieController {
         movieService.addMovieService(movie);
         return new ResponseEntity<>("Movie added successfully", HttpStatus.CREATED);
     }
+
     @PostMapping("/movies/add-director")
     public ResponseEntity<String> addDirector(@RequestBody() Director director){
 
@@ -32,7 +33,7 @@ public class MovieController {
     public ResponseEntity<String> addMovieDirectorPair(@RequestParam("director") String directorName, @RequestParam("movie") String movieName){
 
         movieService.addMovieDirectorPairService(directorName,movieName);
-        return new ResponseEntity<>("Movie-Director Pair added successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Movie-Director Pair added successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/movies/get-movie-by-name/{name}")
@@ -43,7 +44,7 @@ public class MovieController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<>(requestedMovie, HttpStatus.OK);
+            return new ResponseEntity<>(requestedMovie, HttpStatus.CREATED);
         }
     }
 
@@ -55,7 +56,7 @@ public class MovieController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         else {
-            return new ResponseEntity<>(requestedDirector, HttpStatus.OK);
+            return new ResponseEntity<>(requestedDirector, HttpStatus.CREATED);
         }
     }
 
@@ -63,12 +64,7 @@ public class MovieController {
     public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("director") String directorName){
 
         List<String> movieList = movieService.getAllMoviesByDirectorService(directorName);
-        if (movieList.isEmpty()){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        else {
-            return new ResponseEntity<>(movieList, HttpStatus.FOUND);
-        }
+        return new ResponseEntity<>(movieList, HttpStatus.CREATED);
     }
 
     @GetMapping("/movies/get-all-movies")
@@ -79,7 +75,7 @@ public class MovieController {
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
         else {
-            return new ResponseEntity<>(movieList, HttpStatus.FOUND);
+            return new ResponseEntity<>(movieList, HttpStatus.CREATED);
         }
     }
 
@@ -87,13 +83,13 @@ public class MovieController {
     public ResponseEntity<String> deleteDirectorByName(@RequestParam("name") String directorName){
 
         movieService.deleteMovieByDirectorService(directorName);
-        return new ResponseEntity<>("Director and his movies have been deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Director and his movies have been deleted successfully", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/movies/delete-all-directors")
     public ResponseEntity<String> deleteAllDirectors(){ // should not delete movies not mapped to any director
 
         movieService.deleteAllDirectorsFromDB();
-        return new ResponseEntity<>("All Directors and their movies have been deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("All Directors and their movies have been deleted successfully", HttpStatus.CREATED);
     }
 }
