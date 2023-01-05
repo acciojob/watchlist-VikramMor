@@ -14,6 +14,7 @@ public class MovieRepository {
     HashMap<String, Movie> movieHashMap = new HashMap<>();
     HashMap<String, Director> directorHashMap = new HashMap<>();
     HashMap<String, List<String>> pairHashMap = new HashMap<>();
+    HashMap<String, String> movieDirectorHashMap = new HashMap<>();
 
     public void addMovieInDB(Movie movie){
         movieHashMap.put(movie.getName(), movie);
@@ -31,6 +32,7 @@ public class MovieRepository {
             list.add(movieName);
             pairHashMap.put(directorName, list);
         }
+        movieDirectorHashMap.put(movieName, directorName);
         System.out.println("Pair added");
     }
 
@@ -40,6 +42,10 @@ public class MovieRepository {
 
     public Director getDirectorByNameFromDB(String name){
         return directorHashMap.get(name);
+    }
+
+    public String getDirectorByMovieFromDB(String movie){
+        return movieDirectorHashMap.get(movie);
     }
 
     public List<String> findMoviesFromDirector(String director){
